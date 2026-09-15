@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_healthy } }
+    ports: ["3000:3000"]
+  worker:
+    build: .
+    command: npm run worker
+    env_file: .env
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_healthy } }
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: botlly, POSTGRES_PASSWORD: change-me, POSTGRES_DB: botlly }
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL","pg_isready -U botlly -d botlly"], interval: 10s, timeout: 5s, retries: 5 }
+  redis:
+    image: redis:7-alpine
+    volumes: [redis_data:/data]
+    healthcheck: { test: ["CMD","redis-cli","ping"], interval: 10s, timeout: 5s, retries: 5 }
+volumes: { postgres_data: {}, redis_data: {} }

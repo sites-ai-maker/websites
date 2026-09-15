@@ -1,0 +1,7 @@
+node_modules
+.next
+.env
+.pages-dist
+.env.local
+coverage
+*.log

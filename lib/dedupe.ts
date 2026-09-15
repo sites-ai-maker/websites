@@ -1,0 +1,3 @@
+export const normalizeText=(value:string)=>value.normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
+export const normalizePhone=(value?:string|null)=>value?value.replace(/\D/g,'').replace(/^00/,'+'):null;
+export function isDuplicate(a:{externalId?:string|null;phone?:string|null;name:string;address?:string|null},b:{externalId?:string|null;phone?:string|null;name:string;address?:string|null}){if(a.externalId&&b.externalId&&a.externalId===b.externalId)return true;if(a.phone&&b.phone&&normalizePhone(a.phone)===normalizePhone(b.phone))return true;return normalizeText(a.name)===normalizeText(b.name)&&!!a.address&&!!b.address&&normalizeText(a.address)===normalizeText(b.address)}

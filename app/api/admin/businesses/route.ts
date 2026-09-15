@@ -1,0 +1,1 @@
+import { prisma } from '@/lib/prisma'; export async function GET(){return Response.json(await prisma.business.findMany({where:{deletedAt:null},include:{city:true,niche:true},orderBy:[{businessScore:'desc'},{createdAt:'desc'}],take:100}));}

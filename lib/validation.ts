@@ -1,0 +1,4 @@
+import { z } from 'zod';
+export const cityInput=z.object({name:z.string().trim().min(2).max(120),country:z.string().trim().min(2).max(80),countryCode:z.string().trim().length(2).toUpperCase(),state:z.string().trim().max(120).optional(),latitude:z.number().min(-90).max(90).optional(),longitude:z.number().min(-180).max(180).optional(),timezone:z.string().min(1).max(80),language:z.enum(['ar','en']).default('ar'),currency:z.string().length(3).default('USD')});
+export const nicheInput=z.object({name:z.string().trim().min(2).max(120),slug:z.string().regex(/^[a-z0-9-]+$/),description:z.string().max(500).optional(),priority:z.number().int().min(0).max(100).default(0)});
+export const discoveryInput=z.object({cityId:z.string().uuid(),nicheId:z.string().uuid(),maximumLeads:z.number().int().min(1).max(500),minimumRating:z.number().min(0).max(5),minimumReviews:z.number().int().min(0).max(100000),requireNoWebsite:z.boolean().default(true)});
